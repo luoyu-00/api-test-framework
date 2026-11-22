@@ -1,6 +1,0 @@
-06:22:03 | INFO    | http       | --> POST http://127.0.0.1:8000/login | params=None | body={'username': 'admin', 'password': '******', 'code': '', 'uuid': ''}
-06:22:03 | INFO    | http       | <-- 200 http://127.0.0.1:8000/login | 1.0ms
-06:22:03 | INFO    | http       |     resp: {"code":200,"msg":"操作成功","token":"mock-token-for-automation"}
-06:22:03 | INFO    | http       | --> GET http://127.0.0.1:8000/system/user/list | params={'pageNum': 1, 'pageSize': 10} | body=None
-06:22:03 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/user/list | 1.6ms
-06:22:03 | INFO    | http       |     resp: {"code":200,"msg":"查询成功","total":2,"rows":[{"userId":1,"userName":"admin","nickName":"超级管理员","email":"admin@demo.com","status":"0","createTime":"2026-11-01 10:00:00"},{"userId":2,"userName":"test01","nickName":"测试用户01","email":"test01@demo.com","status":"0","createTime":"2026-11-02 09:30:00"}]}

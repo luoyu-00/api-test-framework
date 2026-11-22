@@ -1,0 +1,6 @@
+DELETE /system/user/7
+耗时: 1.5ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功"}

@@ -1,0 +1,6 @@
+POST /login
+耗时: 1.5ms
+请求体: {'username': 'admin', 'password': '******', 'code': '', 'uuid': ''}
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功","token":"mock-token-for-automation"}

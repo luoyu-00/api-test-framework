@@ -1,6 +1,0 @@
-GET /system/user/list
-耗时: 1.6ms
-请求体: None
-状态码: 200
-响应体:
-{"code":200,"msg":"查询成功","total":2,"rows":[{"userId":1,"userName":"admin","nickName":"超级管理员","email":"admin@demo.com","status":"0","createTime":"2026-11-01 10:00:00"},{"userId":2,"userName":"test01","nickName":"测试用户01","email":"test01@demo.com","status":"0","createTime":"2026-11-02 09:30:00"}]}

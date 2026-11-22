@@ -1,6 +1,0 @@
-POST /system/user
-耗时: 1.4ms
-请求体: {'userName': 'auto_1795328523208', 'nickName': '重复账号', 'password': '******', 'status': '0'}
-状态码: 200
-响应体:
-{"code":500,"msg":"新增用户'auto_1795328523208'失败，用户账号已存在"}
