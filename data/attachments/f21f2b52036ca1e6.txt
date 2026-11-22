@@ -1,0 +1,3 @@
+06:22:03 | INFO    | http       | --> POST http://127.0.0.1:8000/login | params=None | body={'username': '<script>alert(1)</script>', 'password': '******', 'code': '', 'uuid': ''}
+06:22:03 | INFO    | http       | <-- 200 http://127.0.0.1:8000/login | 1.0ms
+06:22:03 | INFO    | http       |     resp: {"code":500,"msg":"用户不存在/密码错误"}

@@ -1,0 +1,1 @@
+[{"values":["ci"],"name":"env"},{"values":["http://127.0.0.1:8000"],"name":"base_url"},{"values":["å¥çº¦æ¨¡æå¨ï¼CI åå¯å¨ï¼"],"name":"sut"},{"values":["3.11.18"],"name":"python"}]
