@@ -1,0 +1,85 @@
+# 登录模块用例数据。
+# 加一条用例 = 加一段 yaml，不改 Python 代码。
+#
+# expected_code 说明：若依体系里业务失败也返回 HTTP 200，业务码是 500。
+# 所以断言分两层：HTTP 状态码 + 业务码。
+
+success:
+  - title: 管理员使用正确账号密码登录成功
+    username: admin
+    password: admin123
+    expected_code: 200
+
+negative:
+  - title: 密码错误登录失败
+    username: admin
+    password: wrong_pwd_123
+    expected_code: 500
+    expected_msg: 密码错误
+
+  - title: 账号不存在登录失败
+    username: not_exist_user_999
+    password: admin123
+    expected_code: 500
+    expected_msg: 密码错误
+
+  - title: 用户名为空登录失败
+    username: ""
+    password: admin123
+    expected_code: 500
+
+  - title: 密码为空登录失败
+    username: admin
+    password: ""
+    expected_code: 500
+
+  - title: 用户名前后带空格登录失败
+    username: " admin "
+    password: admin123
+    expected_code: 500
+    note: 若真实系统做了 trim 处理，此用例需按实际行为调整——以真实系统为准
+
+  - title: 用户名超长（50字符）登录失败
+    username: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    password: admin123
+    expected_code: 500
+
+  - title: 密码超长（100字符）登录失败
+    username: admin
+    password: A1b2c3d4e5f6g7h8i9j0A1b2c3d4e5f6g7h8i9j0A1b2c3d4e5f6g7h8i9j0A1b2c3d4e5f6g7h8i9j0A1b2c3d4e5f6g7h8i9j0
+    expected_code: 500
+    expected_msg: 密码错误
+
+  - title: 用户名含SQL注入字符不越权
+    username: "' or '1'='1"
+    password: anything
+    expected_code: 500
+
+  - title: 用户名含脚本标签不被执行
+    username: "<script>alert(1)</script>"
+    password: admin123
+    expected_code: 500
+
+  - title: 中文用户名登录失败
+    username: 管理员
+    password: admin123
+    expected_code: 500
+
+boundary:
+  - title: 用户名长度边界1位
+    username: a
+    password: admin123
+    expected_code: 500
+  - title: 密码长度边界1位
+    username: admin
+    password: "1"
+    expected_code: 500
+
+auth:
+  - title: 未携带token访问用户列表返回401
+    path: /system/user/list
+    expected_status: 401
+  - title: 携带伪造token访问用户列表返回401
+    path: /system/user/list
+    fake_token: eyJhbGciOiJIUzI1NiJ9.fake.signature
+    expected_status: 401

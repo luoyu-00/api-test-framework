@@ -1,0 +1,85 @@
+name: api-test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 启动被测服务（契约模拟器）
+        run: |
+          uvicorn sut.main:app --host 127.0.0.1 --port 8000 > sut.log 2>&1 &
+          echo "等待服务就绪..."
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8000/captchaImage > /dev/null; then
+              echo "服务已就绪（第 ${i} 次探测）"
+              break
+            fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:8000/captchaImage > /dev/null || (echo "服务启动失败" && cat sut.log && exit 1)
+
+      - name: 执行接口自动化用例
+        env:
+          TEST_ENV: ci
+        run: pytest
+
+      - name: 安装 Java（allure 依赖）
+        if: always()
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: 安装 allure 命令行
+        if: always()
+        run: |
+          curl -sSL https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.tgz -o allure.tgz
+          tar -xzf allure.tgz
+          sudo mv allure-2.29.0 /opt/allure
+          sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
+          allure --version
+
+      - name: 生成 allure 报告
+        if: always()
+        run: allure generate allure-results -o allure-report --clean
+
+      - name: 上传报告为构建产物
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 30
+
+      - name: 发布报告到 GitHub Pages
+        if: always() && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./allure-report
+
+      - name: 失败时打印服务端日志
+        if: failure()
+        run: cat sut.log || true
