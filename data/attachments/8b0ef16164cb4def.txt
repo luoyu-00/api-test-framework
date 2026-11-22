@@ -1,3 +1,0 @@
-06:24:56 | INFO    | http       | --> GET http://127.0.0.1:8000/captchaImage | params=None | body=None
-06:24:56 | INFO    | http       | <-- 200 http://127.0.0.1:8000/captchaImage | 1.8ms
-06:24:56 | INFO    | http       |     resp: {"code":200,"msg":"操作成功","captchaEnabled":false,"uuid":""}

@@ -1,6 +1,0 @@
-POST /system/user
-耗时: 1.5ms
-请求体: {'nickName': '无账号用户', 'password': '******'}
-状态码: 200
-响应体:
-{"code":500,"msg":"用户账号不能为空"}

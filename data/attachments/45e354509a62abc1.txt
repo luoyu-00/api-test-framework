@@ -1,6 +1,0 @@
-POST /login
-耗时: 1.7ms
-请求体: {'username': 'not_exist_user_999', 'password': '******', 'code': '', 'uuid': ''}
-状态码: 200
-响应体:
-{"code":500,"msg":"用户不存在/密码错误"}

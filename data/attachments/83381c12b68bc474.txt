@@ -1,0 +1,6 @@
+POST /system/user
+耗时: 1.0ms
+请求体: {'userName': 'auto_del_1795329184922', 'nickName': '待删除用户', 'password': '******'}
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功"}

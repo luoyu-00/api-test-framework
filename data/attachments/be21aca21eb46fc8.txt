@@ -1,3 +1,0 @@
-06:24:56 | INFO    | http       | --> DELETE http://127.0.0.1:8000/system/user/1 | params=None | body=None
-06:24:56 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/user/1 | 1.5ms
-06:24:56 | INFO    | http       |     resp: {"code":500,"msg":"不允许操作超级管理员用户"}

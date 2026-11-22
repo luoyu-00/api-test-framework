@@ -1,0 +1,6 @@
+POST /system/user
+耗时: 1.1ms
+请求体: {'userName': 'auto_add_1795329184895', 'nickName': '新增校验用户', 'password': '******', 'status': '0'}
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功"}
