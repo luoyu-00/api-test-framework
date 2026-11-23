@@ -1,8 +1,8 @@
 """断言封装。
 
-为什么不用裸 assert：
-  裸 assert 失败时只告诉你 False != True，你要重跑一次才知道发生了什么。
-  这里的每个断言都把「预期 / 实际 / 响应全文」写进失败信息，并且落到 allure 步骤里。
+不使用裸 assert 的原因：
+  裸 assert 失败时只给出 False != True，必须重跑才能定位问题。
+  这里的每个断言都把「预期 / 实际 / 响应全文」写进失败信息，并落到 allure 步骤里。
 """
 from __future__ import annotations
 

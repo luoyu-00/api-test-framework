@@ -8,3 +8,4 @@ logs/
 sut.log
 .idea/
 .vscode/
+*.bak
