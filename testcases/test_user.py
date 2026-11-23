@@ -5,6 +5,8 @@
 
 单看 code==200 不叫测试，叫可用性探测。真正的测试要验证「状态确实发生了改变」。
 """
+import time
+
 import allure
 import pytest
 
@@ -100,6 +102,23 @@ class TestUserQuery:
         resp = anonymous_user_api.list_users()
         assert_http_status(resp, 401)
 
+    @allure.story("查询用户列表")
+    @allure.title("按状态过滤只返回该状态的用户")
+    def test_list_filter_by_status(self, user_api: UserApi):
+        """造一个 status=1 的用户，再按 status=1 查，校验「每一行」都符合，而不只看 total。"""
+        name = f"status1_{int(time.time() * 1000)}"
+        assert_biz_code(user_api.add_user({"userName": name, "status": "1"}), 200)
+        user_id = user_api.list_users(user_name=name).json()["rows"][0]["userId"]
+        try:
+            resp = user_api.list_users(status="1", page_size=50)
+            assert_biz_code(resp, 200)
+            body = resp.json()
+            assert body["total"] >= 1, f"存在 status=1 的用户，但过滤结果为空: {resp.text[:300]}"
+            mismatched = [r for r in body["rows"] if r.get("status") != "1"]
+            assert not mismatched, f"状态过滤失效，结果里混入非 1 状态的行: {mismatched[:3]}"
+        finally:
+            user_api.delete_user(user_id)
+
 
 @allure.feature(FEATURE)
 @pytest.mark.user
@@ -144,15 +163,18 @@ class TestUserWrite:
         assert_biz_code(resp, 500)
 
     @allure.story("新增用户")
-    @allure.title("用户名超长（65字符）被拒绝")
+    @allure.title("用户名超长（31字符，超上限1位）被拒绝")
     @pytest.mark.boundary
     def test_add_username_too_long(self, user_api: UserApi):
+        # 上限是 30，取 31 才是「刚好越界」；写 65 也能过，但测的是同一个判断分支，
+        # 精度却低得多。边界值要贴着边界写。
         resp = user_api.add_user({
-            "userName": "a" * 65,
+            "userName": "a" * 31,
             "nickName": "超长账号",
             "password": "Test@123456",
         })
         assert_biz_code(resp, 500)
+        assert_msg_contains(resp, "30")
 
     @allure.story("修改用户")
     @allure.title("修改昵称后详情同步更新")
@@ -187,7 +209,82 @@ class TestUserWrite:
     @allure.story("删除用户")
     @allure.title("不允许删除超级管理员账号")
     def test_delete_admin_forbidden(self, user_api: UserApi):
-        """业务规则类用例：这类用例最能体现"你懂业务"，而不只是懂接口。"""
+        """业务规则类用例：验证接口行为是否符合业务约束，而不只是通不通。"""
         resp = user_api.delete_user(1)
         assert_biz_code(resp, 500)
         assert_msg_contains(resp, "超级管理员")
+
+    # ---------- Day6 补充 ----------
+
+    @allure.story("修改用户")
+    @allure.title("修改状态后详情同步变更")
+    def test_update_status_effective(self, user_api: UserApi, created_user):
+        """写后读：改完必须从详情接口读回来，只看 code==200 无法证明真的改了。"""
+        user_id = created_user["userId"]
+        assert_biz_code(user_api.update_user({"userId": user_id, "status": "1"}), 200)
+        with allure.step("读回详情，确认 status 已变为 1"):
+            assert_field(user_api.get_user(user_id), "data.status", "1")
+
+    @allure.story("修改用户")
+    @allure.title("缺少 userId 修改失败")
+    def test_update_without_user_id(self, user_api: UserApi):
+        resp = user_api.update_user({"nickName": "没有主键的修改"})
+        assert_biz_code(resp, 500)
+        assert_msg_contains(resp, "用户ID不能为空")
+
+    @allure.story("修改用户")
+    @allure.title("修改不存在的用户失败")
+    def test_update_not_exist_user(self, user_api: UserApi):
+        resp = user_api.update_user({"userId": 99999, "nickName": "幽灵用户"})
+        assert_biz_code(resp, 500)
+        assert_msg_contains(resp, "用户不存在")
+
+    @allure.story("修改用户")
+    @allure.title("把用户名改成已存在的账号失败")
+    def test_update_duplicate_username(self, user_api: UserApi, created_user):
+        resp = user_api.update_user({"userId": created_user["userId"], "userName": "admin"})
+        assert_biz_code(resp, 500)
+        assert_msg_contains(resp, "已存在")
+
+    @allure.story("新增用户")
+    @allure.title("用户名恰好 30 字符可以创建")
+    @pytest.mark.boundary
+    def test_add_username_exact_30(self, user_api: UserApi):
+        """边界内：上限 30，写 30 必须成功。与「31 字符必须失败」配对才构成完整边界。"""
+        name = ("b30_" + str(int(time.time() * 1000))).ljust(30, "x")[:30]
+        assert len(name) == 30
+        resp = user_api.add_user({"userName": name, "nickName": "边界值30"})
+        assert_biz_code(resp, 200)
+        with allure.step("清理边界数据"):
+            rows = user_api.list_users(user_name=name).json()["rows"]
+            if rows:
+                user_api.delete_user(rows[0]["userId"])
+
+    @allure.story("新增用户")
+    @allure.title("不传 status 时默认可用状态为 0")
+    def test_add_default_status(self, user_api: UserApi):
+        """默认值也是需求的一部分：不传状态不该变成空或者 2。"""
+        name = f"defstat_{int(time.time() * 1000)}"
+        assert_biz_code(user_api.add_user({"userName": name}), 200)
+        user_id = user_api.list_users(user_name=name).json()["rows"][0]["userId"]
+        try:
+            assert_field(user_api.get_user(user_id), "data.status", "0")
+        finally:
+            user_api.delete_user(user_id)
+
+    @allure.story("删除用户")
+    @allure.title("批量删除两个用户后均查不到")
+    def test_delete_batch_users(self, user_api: UserApi):
+        """逗号分隔批量删除是若依的既有能力，单删通过不代表批量通过。"""
+        stamp = int(time.time() * 1000)
+        names = [f"batch_{n}_{stamp}" for n in ("a", "b")]
+        ids = []
+        for n in names:
+            assert_biz_code(user_api.add_user({"userName": n}), 200)
+            ids.append(user_api.list_users(user_name=n).json()["rows"][0]["userId"])
+
+        assert_biz_code(user_api.delete_user(f"{ids[0]},{ids[1]}"), 200)
+        with allure.step("两个账号都应查不到"):
+            for n in names:
+                assert user_api.list_users(user_name=n).json()["total"] == 0, f"{n} 未被删除"
+

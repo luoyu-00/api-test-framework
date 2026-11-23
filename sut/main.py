@@ -194,3 +194,123 @@ async def delete_user(request: Request, user_ids: str) -> Any:
 @app.get("/")
 async def index() -> dict:
     return {"service": "SUT-Mock", "docs": "/docs", "users": 2}
+
+
+
+
+
+
+# ---------------------------------------------------------------- 角色管理
+# 1. 先定义角色的 Mock 数据结构
+_roles: dict[int, dict[str, Any]] = {
+    1: {
+        "roleId": 1, "roleName": "超级管理员", "roleKey": "admin",
+        "roleSort": 1, "status": "0", "createTime": "2026-11-01 10:00:00",
+    },
+    2: {
+        "roleId": 2, "roleName": "普通角色", "roleKey": "common",
+        "roleSort": 2, "status": "0", "createTime": "2026-11-02 09:30:00",
+    },
+}
+_next_role_id = 3
+
+# 2. 实现 4 个 Role 接口
+@app.get("/system/role/list")
+async def list_roles(
+    request: Request,
+    pageNum: int = Query(1),
+    pageSize: int = Query(10),
+    roleName: Optional[str] = Query(None),
+) -> Any:
+    if not _check_auth(request):
+        return _unauthorized()
+
+    with _lock:
+        items = list(_roles.values())
+
+    # 支持 roleName 过滤
+    if roleName:
+        items = [r for r in items if roleName in r["roleName"]]
+
+    items.sort(key=lambda r: r["roleId"])
+    total = len(items)
+    start = max(0, (pageNum - 1) * pageSize)
+    rows = items[start:start + pageSize] if pageSize > 0 else []
+
+    return {"code": 200, "msg": "查询成功", "total": total, "rows": rows}
+
+
+@app.post("/system/role")
+async def add_role(request: Request, payload: dict) -> Any:
+    if not _check_auth(request):
+        return _unauthorized()
+
+    global _next_role_id
+    role_name = (payload.get("roleName") or "").strip()
+    role_key = (payload.get("roleKey") or "").strip()
+
+    if not role_name or not role_key:
+        return _fail("角色名称和权限字符不能为空")
+
+    with _lock:
+        # roleKey 重复返回 code 500
+        if any(r["roleKey"] == role_key for r in _roles.values()):
+            return _fail("角色权限字符已存在")
+        
+        role_id = _next_role_id
+        _next_role_id += 1
+        _roles[role_id] = {
+            "roleId": role_id,
+            "roleName": role_name,
+            "roleKey": role_key,
+            "roleSort": payload.get("roleSort", 0),
+            "status": payload.get("status", "0"),
+            "createTime": "2026-11-22 12:00:00",
+        }
+    return _ok()
+
+
+@app.put("/system/role")
+async def update_role(request: Request, payload: dict) -> Any:
+    if not _check_auth(request):
+        return _unauthorized()
+
+    role_id = payload.get("roleId")
+    if not role_id:
+        return _fail("角色ID不能为空")
+
+    with _lock:
+        role = _roles.get(role_id)
+        if not role:
+            return _fail("角色不存在")
+
+        # 修改 roleName
+        new_name = payload.get("roleName")
+        if new_name:
+            role["roleName"] = new_name
+            
+        # 如果想改 roleKey，也得校验重复
+        new_key = payload.get("roleKey")
+        if new_key and new_key != role["roleKey"]:
+            if any(r["roleKey"] == new_key and r["roleId"] != role_id for r in _roles.values()):
+                return _fail("角色权限字符已存在")
+            role["roleKey"] = new_key
+
+    return _ok()
+
+
+@app.delete("/system/role/{role_ids}")
+async def delete_role(request: Request, role_ids: str) -> Any:
+    if not _check_auth(request):
+        return _unauthorized()
+
+    ids = [int(i) for i in role_ids.split(",") if i.strip().isdigit()]
+    
+    # roleId=1（超管）返回 500
+    if 1 in ids:
+        return _fail("不允许操作超级管理员")
+
+    with _lock:
+        for role_id in ids:
+            _roles.pop(role_id, None)
+    return _ok()

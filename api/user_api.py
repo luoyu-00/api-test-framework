@@ -50,3 +50,26 @@ class UserApi(BaseApi):
 
     def delete_user(self, user_ids: int | str):
         return self.client.delete(f"/system/user/{user_ids}")
+
+
+
+
+
+class RoleApi(BaseApi):
+    def list_roles(self, page_num: int = 1, page_size: int = 10,
+                   role_name: Optional[str] = None, status: Optional[str] = None):
+        params: dict[str, Any] = {"pageNum": page_num, "pageSize": page_size}
+        if role_name is not None:
+            params["roleName"] = role_name
+        if status is not None:
+            params["status"] = status
+        return self.client.get("/system/role/list", params=params)
+
+    def add_role(self, payload: dict[str, Any]):
+        return self.client.post("/system/role", json=payload)
+
+    def update_role(self, payload: dict[str, Any]):
+        return self.client.put("/system/role", json=payload)
+
+    def delete_role(self, role_ids: int | str):
+        return self.client.delete(f"/system/role/{role_ids}")

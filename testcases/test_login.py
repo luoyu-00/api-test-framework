@@ -98,3 +98,49 @@ class TestLogin:
             headers={"Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.fake.signature"},
         )
         assert_http_status(resp, 401)
+
+    # ---------- Day6 补充：登录结果的「可用性」与「安全性」 ----------
+
+    @allure.story("登录安全")
+    @allure.title("登录失败时响应中不得包含 token 字段")
+    def test_login_fail_has_no_token(self, http):
+        """安全类断言：失败响应若透出 token，等于绕过密码校验。"""
+        resp = LoginApi(http).login("admin", "wrong_password_zzz")
+        assert_http_status(resp, 200)
+        assert_biz_code(resp, 500)
+        with allure.step("确认失败响应没有下发任何凭证"):
+            body = resp.json()
+            assert "token" not in body, f"登录失败却下发了 token，属严重安全问题: {resp.text[:300]}"
+            assert not body.get("token"), f"token 字段存在且非空: {resp.text[:300]}"
+
+    @allure.story("登录鉴权")
+    @allure.title("登录返回的 token 可直接访问受保护接口")
+    def test_login_token_reusable(self, http, config):
+        """不满足于「token 非空」，而是拿它真的去调一次受保护接口。
+
+        这条能抓出一类真实缺陷：登录返回了 token，但 token 没被服务端认可。
+        """
+        account = config["accounts"]["admin"]
+        resp = LoginApi(http).login(account["username"], account["password"])
+        token = resp.json()["token"]
+
+        from common.http_client import HttpClient
+
+        c = HttpClient(config["base_url"], config["timeout"])
+        try:
+            c.set_token(token, config["token_scheme"])
+            r = c.get("/system/user/list", params={"pageNum": 1, "pageSize": 10})
+            assert_http_status(r, 200)
+            assert_biz_code(r, 200)
+        finally:
+            c.close()
+
+    @allure.story("入参校验")
+    @allure.title("空请求体登录返回业务错误而非崩溃")
+    def test_login_empty_body(self, http):
+        resp = http.post("/login", json={})
+        assert_http_status(resp, 200)
+        with allure.step("校验服务端给出业务错误，而不是抛异常"):
+            assert_biz_code(resp, 500)
+            assert_msg_contains(resp, "密码错误")
+

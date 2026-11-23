@@ -9,8 +9,7 @@ import time
 
 import pytest
 
-from api.user_api import UserApi
-
+from api.user_api import RoleApi, UserApi
 
 @pytest.fixture
 def user_api(client) -> UserApi:
@@ -50,3 +49,42 @@ def created_user(user_api: UserApi):
     yield {**payload, "userId": user_id}
 
     user_api.delete_user(user_id)      # 后置清理，失败不影响用例结论
+
+
+
+
+
+@pytest.fixture
+def created_role(role_api):
+    suffix = f"{int(time.time() * 1000)}"
+    payload = {
+        "roleName": f"自动化角色_{suffix}",
+        "roleKey": f"auto_{suffix}",
+        "roleSort": 99,
+        "status": "0",
+        "remark": "接口自动化创建，请勿手工修改",
+    }
+    resp = role_api.add_role(payload)
+    assert resp.json().get("code") == 200, f"造数失败\n响应: {resp.text[:500]}"
+    listing = role_api.list_roles(page_num=1, page_size=50, role_name=payload["roleName"]).json()
+    rows = listing.get("rows") or []
+    assert rows, f"新增成功但列表查不到\n响应: {listing}"
+    yield {**payload, "roleId": rows[0]["roleId"]}
+    role_api.delete_role(rows[0]["roleId"])
+
+
+
+
+
+# ---------------- 角色模块 ----------------
+# 注意：RoleApi 要的是「已登录的 HttpClient」，不是 token 字符串。
+# token 由 client 夹具在 set_token 时注入，这里只负责把 client 交给 RoleApi。
+@pytest.fixture
+def role_api(client) -> RoleApi:
+    return RoleApi(client)
+
+
+@pytest.fixture
+def anonymous_role_api(http) -> RoleApi:
+    """不带 token，用于鉴权反例（预期 401）。"""
+    return RoleApi(http)
