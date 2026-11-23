@@ -1,0 +1,6 @@
+PUT /system/role
+耗时: 1.2ms
+请求体: {'roleId': 9, 'roleKey': 'admin'}
+状态码: 200
+响应体:
+{"code":500,"msg":"角色权限字符已存在"}

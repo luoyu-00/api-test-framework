@@ -1,0 +1,6 @@
+POST /system/role
+耗时: 1.2ms
+请求体: {'roleName': '自动化角色_1795435311818', 'roleKey': 'auto_1795435311818', 'roleSort': 99, 'status': '0', 'remark': '接口自动化创建，请勿手工修改'}
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功"}

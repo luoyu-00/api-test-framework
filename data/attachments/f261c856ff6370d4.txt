@@ -1,0 +1,12 @@
+INFO     http:http_client.py:90 --> POST http://127.0.0.1:8000/system/user | params=None | body={'userName': 'auto_del_1795435311936', 'nickName': '待删除用户', 'password': '******'}
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/user | 1.1ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"操作成功"}
+INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/user/list | params={'pageNum': 1, 'pageSize': 10, 'userName': 'auto_del_1795435311936'} | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/user/list | 1.1ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":1,"rows":[{"userId":9,"userName":"auto_del_1795435311936","nickName":"待删除用户","email":"","status":"0","remark":"","createTime":"2026-11-18 20:00:00"}]}
+INFO     http:http_client.py:90 --> DELETE http://127.0.0.1:8000/system/user/9 | params=None | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/user/9 | 1.1ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"操作成功"}
+INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/user/list | params={'pageNum': 1, 'pageSize': 10, 'userName': 'auto_del_1795435311936'} | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/user/list | 1.1ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":0,"rows":[]}

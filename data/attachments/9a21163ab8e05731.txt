@@ -1,3 +1,0 @@
-06:33:04 | INFO    | http       | --> POST http://127.0.0.1:8000/system/user | params=None | body={'userName': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'nickName': '超长账号', 'password': '******'}
-06:33:04 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/user | 1.0ms
-06:33:04 | INFO    | http       |     resp: {"code":500,"msg":"用户账号长度不能超过30个字符"}

@@ -1,0 +1,3 @@
+12:01:51 | INFO    | http       | --> PUT http://127.0.0.1:8000/system/user | params=None | body={'userId': 99999, 'nickName': '幽灵用户'}
+12:01:51 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/user | 1.1ms
+12:01:51 | INFO    | http       |     resp: {"code":500,"msg":"用户不存在"}

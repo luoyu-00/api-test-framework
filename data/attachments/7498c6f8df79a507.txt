@@ -1,0 +1,6 @@
+GET /system/user/list
+耗时: 1.1ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"查询成功","total":1,"rows":[{"userId":13,"userName":"defstat_1795435311972","nickName":"defstat_1795435311972","email":"","status":"0","remark":"","createTime":"2026-11-18 20:00:00"}]}

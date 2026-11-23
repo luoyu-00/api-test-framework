@@ -1,9 +1,0 @@
-INFO     http:http_client.py:90 --> POST http://127.0.0.1:8000/system/user | params=None | body={'userName': 'auto_add_1795329184895', 'nickName': '新增校验用户', 'password': '******', 'status': '0'}
-INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/user | 1.1ms
-INFO     http:http_client.py:98     resp: {"code":200,"msg":"操作成功"}
-INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/user/list | params={'pageNum': 1, 'pageSize': 10, 'userName': 'auto_add_1795329184895'} | body=None
-INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/user/list | 1.0ms
-INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":1,"rows":[{"userId":5,"userName":"auto_add_1795329184895","nickName":"新增校验用户","email":"","status":"0","remark":"","createTime":"2026-11-18 20:00:00"}]}
-INFO     http:http_client.py:90 --> DELETE http://127.0.0.1:8000/system/user/5 | params=None | body=None
-INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/user/5 | 1.0ms
-INFO     http:http_client.py:98     resp: {"code":200,"msg":"操作成功"}

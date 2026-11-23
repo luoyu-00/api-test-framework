@@ -1,0 +1,3 @@
+12:01:51 | INFO    | http       | --> PUT http://127.0.0.1:8000/system/role | params=None | body={'roleId': 99999, 'roleName': '幽灵角色'}
+12:01:51 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role | 1.2ms
+12:01:51 | INFO    | http       |     resp: {"code":500,"msg":"角色不存在"}

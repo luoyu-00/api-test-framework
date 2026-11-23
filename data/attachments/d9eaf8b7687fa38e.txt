@@ -1,0 +1,6 @@
+POST /system/user
+耗时: 1.1ms
+请求体: {'userName': 'batch_b_1795435311979'}
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功"}

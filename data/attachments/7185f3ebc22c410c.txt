@@ -1,0 +1,6 @@
+GET /system/user/10
+耗时: 1.1ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功","data":{"userId":10,"userName":"auto_1795435311945","nickName":"自动化临时用户_1795435311945","email":"","status":"1","remark":"接口自动化用例创建，请勿手工修改","createTime":"2026-11-18 20:00:00"}}

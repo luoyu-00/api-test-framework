@@ -1,3 +1,0 @@
-06:33:04 | INFO    | http       | --> POST http://127.0.0.1:8000/login | params=None | body={'username': 'admin', 'password': '******', 'code': '', 'uuid': ''}
-06:33:04 | INFO    | http       | <-- 200 http://127.0.0.1:8000/login | 2.9ms
-06:33:04 | INFO    | http       |     resp: {"code":200,"msg":"操作成功","token":"mock-token-for-automation"}
