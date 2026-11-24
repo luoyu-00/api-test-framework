@@ -1,0 +1,6 @@
+DELETE /system/role/10,11
+耗时: 1.2ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功"}

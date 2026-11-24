@@ -1,0 +1,12 @@
+01:32:13 | INFO    | http       | --> POST http://127.0.0.1:8000/system/role | params=None | body={'roleName': '自动化角色_1795483933632', 'roleKey': 'auto_1795483933632', 'roleSort': 99, 'status': '0', 'remark': '接口自动化创建，请勿手工修改'}
+01:32:13 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role | 1.2ms
+01:32:13 | INFO    | http       |     resp: {"code":200,"msg":"操作成功"}
+01:32:13 | INFO    | http       | --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 50, 'roleName': '自动化角色_1795483933632'} | body=None
+01:32:13 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role/list | 1.2ms
+01:32:13 | INFO    | http       |     resp: {"code":200,"msg":"查询成功","total":1,"rows":[{"roleId":9,"roleName":"自动化角色_1795483933632","roleKey":"auto_1795483933632","roleSort":99,"status":"0","createTime":"2026-11-22 12:00:00"}]}
+01:32:13 | INFO    | http       | --> PUT http://127.0.0.1:8000/system/role | params=None | body={'roleId': 9, 'roleKey': 'admin'}
+01:32:13 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role | 1.2ms
+01:32:13 | INFO    | http       |     resp: {"code":500,"msg":"角色权限字符已存在"}
+01:32:13 | INFO    | http       | --> DELETE http://127.0.0.1:8000/system/role/9 | params=None | body=None
+01:32:13 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role/9 | 1.2ms
+01:32:13 | INFO    | http       |     resp: {"code":200,"msg":"操作成功"}

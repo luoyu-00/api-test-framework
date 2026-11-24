@@ -1,6 +1,0 @@
-POST /system/role
-耗时: 1.1ms
-请求体: {'roleName': 'auto_del_role_1795435311827', 'roleKey': 'auto_del_key_1795435311827'}
-状态码: 200
-响应体:
-{"code":200,"msg":"操作成功"}

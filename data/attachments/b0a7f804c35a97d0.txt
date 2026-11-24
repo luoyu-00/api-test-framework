@@ -1,3 +1,0 @@
-12:01:51 | INFO    | http       | --> POST http://127.0.0.1:8000/system/user | params=None | body={'nickName': '无账号用户', 'password': '******'}
-12:01:51 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/user | 1.1ms
-12:01:51 | INFO    | http       |     resp: {"code":500,"msg":"用户账号不能为空"}

@@ -1,6 +1,0 @@
-PUT /system/user
-耗时: 1.2ms
-请求体: {'userId': 11, 'userName': 'admin'}
-状态码: 200
-响应体:
-{"code":500,"msg":"修改用户'admin'失败，用户账号已存在"}

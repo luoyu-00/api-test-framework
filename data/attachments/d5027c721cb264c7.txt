@@ -1,0 +1,6 @@
+GET /system/user/list
+耗时: 1.1ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"查询成功","total":1,"rows":[{"userId":12,"userName":"b30_1795483933755xxxxxxxxxxxxx","nickName":"边界值30","email":"","status":"0","remark":"","createTime":"2026-11-18 20:00:00"}]}

@@ -1,0 +1,9 @@
+01:32:13 | INFO    | http       | --> POST http://127.0.0.1:8000/system/role | params=None | body={'roleName': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'roleKey': 'key_long_1795483933596'}
+01:32:13 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role | 1.2ms
+01:32:13 | INFO    | http       |     resp: {"code":200,"msg":"操作成功"}
+01:32:13 | INFO    | http       | --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 10, 'roleName': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'} | body=None
+01:32:13 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role/list | 1.1ms
+01:32:13 | INFO    | http       |     resp: {"code":200,"msg":"查询成功","total":1,"rows":[{"roleId":6,"roleName":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","roleKey":"key_long_1795483933596","roleSort":0,"status":"0","createTime":"2026-11-22 12:00:00"}]}
+01:32:13 | INFO    | http       | --> DELETE http://127.0.0.1:8000/system/role/6 | params=None | body=None
+01:32:13 | INFO    | http       | <-- 200 http://127.0.0.1:8000/system/role/6 | 1.1ms
+01:32:13 | INFO    | http       |     resp: {"code":200,"msg":"操作成功"}

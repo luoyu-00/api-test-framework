@@ -1,6 +1,0 @@
-INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 10} | body=None
-INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role/list | 1.1ms
-INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":2,"rows":[{"roleId":1,"roleName":"超级管理员","roleKey":"admin","roleSort":1,"status":"0","createTime":"2026-11-01 10:00:00"},{"roleId":2,"roleName":"普通角色","roleKey":"common","roleSort":2,"status":"0","createTime":"2026-11-02 09:30:00"}]}
-INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 10, 'status': '9'} | body=None
-INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role/list | 1.1ms
-INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":2,"rows":[{"roleId":1,"roleName":"超级管理员","roleKey":"admin","roleSort":1,"status":"0","createTime":"2026-11-01 10:00:00"},{"roleId":2,"roleName":"普通角色","roleKey":"common","roleSort":2,"status":"0","createTime":"2026-11-02 09:30:00"}]}

@@ -1,0 +1,6 @@
+GET /system/user/13
+耗时: 1.1ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功","data":{"userId":13,"userName":"defstat_1795483933761","nickName":"defstat_1795483933761","email":"","status":"0","remark":"","createTime":"2026-11-18 20:00:00"}}

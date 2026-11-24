@@ -1,0 +1,6 @@
+POST /login
+耗时: 1.0ms
+请求体: {'username': 'admin', 'password': '******', 'code': '', 'uuid': ''}
+状态码: 200
+响应体:
+{"code":500,"msg":"用户不存在/密码错误"}

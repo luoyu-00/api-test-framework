@@ -1,0 +1,21 @@
+INFO     http:http_client.py:90 --> POST http://127.0.0.1:8000/system/role | params=None | body={'roleName': '批删A1795483933641', 'roleKey': 'bk批删A17954839336411795483933641'}
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role | 1.2ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"操作成功"}
+INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 10, 'roleName': '批删A1795483933641'} | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role/list | 1.2ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":1,"rows":[{"roleId":10,"roleName":"批删A1795483933641","roleKey":"bk批删A17954839336411795483933641","roleSort":0,"status":"0","createTime":"2026-11-22 12:00:00"}]}
+INFO     http:http_client.py:90 --> POST http://127.0.0.1:8000/system/role | params=None | body={'roleName': '批删B1795483933641', 'roleKey': 'bk批删B17954839336411795483933641'}
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role | 1.2ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"操作成功"}
+INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 10, 'roleName': '批删B1795483933641'} | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role/list | 1.2ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":1,"rows":[{"roleId":11,"roleName":"批删B1795483933641","roleKey":"bk批删B17954839336411795483933641","roleSort":0,"status":"0","createTime":"2026-11-22 12:00:00"}]}
+INFO     http:http_client.py:90 --> DELETE http://127.0.0.1:8000/system/role/10,11 | params=None | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role/10,11 | 1.2ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"操作成功"}
+INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 10, 'roleName': '批删A1795483933641'} | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role/list | 1.2ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":0,"rows":[]}
+INFO     http:http_client.py:90 --> GET http://127.0.0.1:8000/system/role/list | params={'pageNum': 1, 'pageSize': 10, 'roleName': '批删B1795483933641'} | body=None
+INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role/list | 1.2ms
+INFO     http:http_client.py:98     resp: {"code":200,"msg":"查询成功","total":0,"rows":[]}

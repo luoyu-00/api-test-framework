@@ -1,6 +1,0 @@
-POST /system/role
-耗时: 1.1ms
-请求体: {'roleName': '重复权限字符角色', 'roleKey': 'auto_1795435311802', 'status': '0'}
-状态码: 200
-响应体:
-{"code":500,"msg":"角色权限字符已存在"}

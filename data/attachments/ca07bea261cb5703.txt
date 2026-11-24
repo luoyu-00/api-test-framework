@@ -1,0 +1,6 @@
+GET /system/role/list
+耗时: 1.2ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"查询成功","total":1,"rows":[{"roleId":10,"roleName":"批删A1795483933641","roleKey":"bk批删A17954839336411795483933641","roleSort":0,"status":"0","createTime":"2026-11-22 12:00:00"}]}

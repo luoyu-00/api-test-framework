@@ -1,0 +1,6 @@
+POST /system/role
+耗时: 1.2ms
+请求体: {'roleName': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'roleKey': 'key_long_1795483933596'}
+状态码: 200
+响应体:
+{"code":200,"msg":"操作成功"}

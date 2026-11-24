@@ -1,0 +1,6 @@
+GET /system/role/list
+耗时: 1.2ms
+请求体: None
+状态码: 200
+响应体:
+{"code":200,"msg":"查询成功","total":1,"rows":[{"roleId":7,"roleName":"自动化角色_1795483933601","roleKey":"auto_1795483933601","roleSort":99,"status":"0","createTime":"2026-11-22 12:00:00"}]}

@@ -1,3 +1,0 @@
-INFO     http:http_client.py:90 --> POST http://127.0.0.1:8000/system/role | params=None | body={'roleKey': 'no_name_key'}
-INFO     http:http_client.py:96 <-- 200 http://127.0.0.1:8000/system/role | 1.2ms
-INFO     http:http_client.py:98     resp: {"code":500,"msg":"角色名称和权限字符不能为空"}
